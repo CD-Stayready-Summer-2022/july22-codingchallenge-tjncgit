@@ -1,5 +1,10 @@
 package com.codedifferently;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 public class Solution {
     /**
      * You will be given an integer called number and an array called possibleFamilyMembers
@@ -18,6 +23,28 @@ public class Solution {
      * @return
      */
     public Integer[] numberFamily(Integer number, Integer[] possibleFamilyMembers){
-        return null;
+        Arrays.sort(possibleFamilyMembers);
+        List<Integer> fam =  new LinkedList<Integer>(Arrays.asList(possibleFamilyMembers)) ;
+        List<Integer> out = new ArrayList<>();
+        Integer newFam = number + 1;
+        out.add(number);
+        for(Integer num: possibleFamilyMembers) {
+            while (fam.contains(newFam)) {
+                out.add(newFam);
+                fam.remove(newFam);
+            }
+            newFam += 1;
+        }
+
+        newFam = number + - 1;
+        for(Integer num: possibleFamilyMembers) {
+            while (fam.contains(newFam) && !out.contains(newFam)) {
+                out.add(newFam);
+                fam.remove(newFam);
+            }
+            newFam -= 1;
+        }
+
+        return out.toArray(Integer[]::new);
     }
 }
